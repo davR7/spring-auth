@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.davr7.springauth.domain.User;
+import com.davr7.springauth.dtos.UserRegisterDTO;
 import com.davr7.springauth.repositories.UserRepository;
 
 @Service
@@ -16,5 +17,9 @@ public class UserService {
 	
 	public List<User> readAllUsers(){
 		return repository.findAll();
+	}
+	
+	public User createUser(UserRegisterDTO obj){
+		return repository.save(new User(obj));
 	}
 }
