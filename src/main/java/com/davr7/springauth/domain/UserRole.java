@@ -1,4 +1,4 @@
-package com.davr7.springauth.domain.user;
+package com.davr7.springauth.domain;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

@@ -1,4 +1,4 @@
-package com.davr7.springauth.domain.user;
+package com.davr7.springauth.domain;
 
 import java.io.Serializable;
 import java.util.List;
