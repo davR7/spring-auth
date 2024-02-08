@@ -3,6 +3,7 @@ package com.davr7.springauth.domain;
 import java.io.Serializable;
 import java.util.List;
 
+import com.davr7.springauth.dtos.UserRegisterDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
@@ -52,6 +53,14 @@ public class User implements Serializable {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name="role_id"))
 	private List<UserRole> roles;
+	
+	public User(UserRegisterDTO UserRegister) {
+		this.fullname = UserRegister.fullname();
+		this.email = UserRegister.email();
+		this.username = UserRegister.username();
+		this.password = UserRegister.password();
+		this.setRole(UserRegister.role());
+	}
 
 	public User(String id, String fullname, String email, String username, String password, UserRole role) {
 		this.id = id;
@@ -60,7 +69,6 @@ public class User implements Serializable {
 		this.username = username;
 		this.password = password;
 		this.setRole(role);
-		
 	}
 	
 	public UserRole getRole(){
