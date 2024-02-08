@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.davr7.springauth.domain.User;
-import com.davr7.springauth.dtos.UserRegisterDTO;
+import com.davr7.springauth.dtos.CreateUserDTO;
 import com.davr7.springauth.services.UserService;
 
 @RestController
@@ -21,7 +21,7 @@ public class AuthenticationResource {
 	UserService service;
 	
 	@PostMapping("/signup")
-	public ResponseEntity<User> signup(UserRegisterDTO obj) {
+	public ResponseEntity<User> signup(CreateUserDTO obj) {
 
 		User user = service.createUser(obj);
 
