@@ -4,13 +4,13 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.davr7.springauth.domain.User;
 
 @Component
 public class JwtUtil {
@@ -18,18 +18,18 @@ public class JwtUtil {
 	
 	private static final String ISSUER = "spring-auth"; 
 	
-	public String generateToken(User user) {
+	public String generateToken(UserDetails user) {
 		try {
 			Algorithm algorithm = Algorithm.HMAC256(SECRET_KEY);
 		    String token = JWT.create()
 		        .withIssuer(ISSUER)
-		        .withSubject(user.getId())
+		        .withSubject(user.getUsername())
 		        .withIssuedAt(creationDate())
 		        .withExpiresAt(expirationDate())
 		        .sign(algorithm);
 		    return token;
-		} catch (JWTCreationException exception){
-		    throw new JWTCreationException("Invalid or expired token", exception);
+		} catch (JWTCreationException e){
+		    throw new JWTCreationException("Invalid or expired token", e);
 		}
 	}
 	
@@ -41,8 +41,8 @@ public class JwtUtil {
 		        .build()
 		        .verify(token)
 		        .getSubject();
-		} catch (JWTVerificationException exception){
-		    throw new JWTVerificationException("Invalid signature");
+		} catch (JWTVerificationException e){
+		    throw new JWTVerificationException("Invalid signature", e);
 		}
 	}
 	
