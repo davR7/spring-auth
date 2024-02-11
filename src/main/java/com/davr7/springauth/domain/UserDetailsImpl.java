@@ -30,12 +30,12 @@ public class UserDetailsImpl implements UserDetails {
 	
 	@Override
 	public String getUsername() {
-		return null;
+		return user.getUsername();
 	}
 
 	@Override
 	public String getPassword() {
-		return null;
+		return user.getPassword();
 	}
 
 	@Override
@@ -57,5 +57,4 @@ public class UserDetailsImpl implements UserDetails {
 	public boolean isEnabled() {
 		return true;
 	}
-
 }
