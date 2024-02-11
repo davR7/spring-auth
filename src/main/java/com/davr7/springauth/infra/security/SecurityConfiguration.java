@@ -1,6 +1,7 @@
 package com.davr7.springauth.infra.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -20,17 +21,21 @@ public class SecurityConfiguration {
 
 	@Autowired
 	UserAuthenticationFilter userAuthenticationFilter;
-
+	
 	@Bean
 	SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-		return httpSecurity.csrf(csrf -> csrf.disable())
+		return httpSecurity
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.authorizeHttpRequests(auth -> auth
-						.requestMatchers(HttpMethod.POST, EndpointConfig.ENDPOINTS_WITH_AUTHENTICATION_NOT_REQUIRED).permitAll()
-						.requestMatchers(HttpMethod.POST, "/users").hasRole("ADMIN")
+						.requestMatchers(PathRequest.toH2Console()).permitAll()
+						.requestMatchers(HttpMethod.POST, "/auth/signup").permitAll()
+						.requestMatchers(HttpMethod.POST, "/auth/signin").permitAll()
+						.requestMatchers(HttpMethod.GET, "/users").hasRole("ADMIN")
 						.anyRequest().authenticated()
 				)
 				.addFilterBefore(userAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+				.csrf(csrf -> csrf.disable())
+				.headers((headers) -> headers.frameOptions((frame) -> frame.sameOrigin()))
 				.build();
 	}
 
